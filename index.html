@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <script src="scripts.js"></script>
+  <title>Maxand Software</title>
+ </head>
+ <body>
+	 <div class="loader">
+		 <div class="loaderContainer">
+			<center><img class="loaderAnimation" src="./assets/loader.gif"></center>
+			<center><p class="loaderTitle">Загрузка...</p></center>
+			<center><p class="loaderError" id="requestError"></p></center>
+		</div>
+	 </div>
+	<!--<div class="navTop">
+		<div class="navTopItem">
+			<a href="">News</a>
+		</div>
+		<div class="navTopItem">
+			<a href="">Support</a>
+		</div>
+	</div>
+	<hr color="#E0EBFF">-->
+	<div class="navBottom">
+		<div class="navBottomLogo">
+			<img src="./assets/logo/maxandsoftware.png">
+		</div>
+		<div class="searchBar">
+			<form action="https://ya.ru/search/" method="get"><input id="searchBarInput" name="text" type="text" autocomplete="off" placeholder="Поиск в интернете"></form>
+		</div>
+		<div class="searchBarSubmitContainer">
+			<img src="./assets/icons/search.png" id="searchBarSubmit" onClick="var inputElement = document.getElementById('searchBarInput'); window.location.replace(search(inputElement.value));">
+		</div>
+		<div class="currencyIcon">
+			<img src="./assets/icons/dollar.png" id="currencyImage">
+		</div>
+		<div class="currencyPrice">
+			<a id="usdValue" href="#">&nbsp;&nbsp;&nbsp;102.67</a>
+		</div>
+		<div class="currencyIcon">
+			<img src="./assets/icons/euro.png" id="currencyImage">
+		</div>
+		<div class="currencyPrice">
+			<a id="eurValue" href="#">&nbsp;&nbsp;&nbsp;102.67</a>
+		</div>
+		<div class="currencyIcon">
+			<img src="./assets/icons/yuan.png" id="currencyImage">
+		</div>
+		<div class="currencyPrice">
+			<a id="cnyValue" href="#">&nbsp;&nbsp;&nbsp;102.67</a>
+		</div>
+	</div>
+	<div class="contentContainer">
+		<!--
+		<div class="tabs">
+		  <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+		  <label for="tab-btn-1">Главное</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+		  <label for="tab-btn-2">Россия</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-3" value="">
+		  <label for="tab-btn-3">Политика</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-4" value="">
+		  <label for="tab-btn-4">Экономика</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-5" value="">
+		  <label for="tab-btn-5">СВО</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-6" value="">
+		  <label for="tab-btn-6">Спорт</label>
+		  <input type="radio" name="tab-btn" id="tab-btn-7" value="">
+		  <label for="tab-btn-7">Происшествия</label>
+		  <div id="content-1">--->
+			<div class="articles" id="articles">
+			<!--<div class="article">
+					<img class="articleImage" src="./test.jpg">
+					<h3 class="articleText articleTitle">Тестовая новость</h3>
+					<p class="articleText articleDescription">описание тестовой новости описание тестовой новости описание тестовой новости описание тестовой новости</p>
+					<p class="articleText agenceTitle"><img class="agenceLogo" src="./assets/logo/ria.png">&nbsp;РИА Новости&nbsp;12:30</p>
+				</div>-->
+		    </div>
+		    <!--
+		  </div>
+		  <div id="content-2">
+			Содержимое 2...
+		  </div>
+		  <div id="content-3">
+			Содержимое 3...
+		  </div>
+		  <div id="content-4">
+			Содержимое 3...
+		  </div>
+		  <div id="content-5">
+			Содержимое 3...
+		  </div>
+		  <div id="content-6">
+			Содержимое 3...
+		  </div>
+		  <div id="content-7">
+			Содержимое 3...
+		  </div>
+		</div>--->
+	</div>
+	<div class="footer">
+		<p class="copyright">&copy;&nbsp;Maxand Software 2022 - 2023.</p>
+		<div class="socialIcons">
+			<a href="https://t.me/maxandsoftware">
+				<img class="socialIcon" src="./assets/social/tg.png">
+			</a>
+			<a href="https://ok.ru/maxand.software">
+				<img class="socialIcon" src="./assets/social/ok.png">
+			</a>
+		</div>
+	</div>
+ </body>
+  <script>
+	    var resp = '';
+        var xmlHttp = new XMLHttpRequest();
+        var parser = new DOMParser()
+        const truncateString = (s, w) => s.length > w ? s.substring(0, w).trim() + "..." : s;
+	    function requestError(){
+			document.getElementById("requestError").innerHTML="Произошла ошибка, не удалось подключится к серверу. Вы будете перенаправлены страницу ошибки через <span id='timer'>10</span> секунд.";
+			setInterval("window.location.replace('https://maxandsoftware.github.io/ru/error.html')", 10000);
+		}
+		function setup(exchangesObj, agencyObj){
+			var usd = exchangesObj["cbr"]["usd"];
+			var eur = exchangesObj["cbr"]["eur"];
+			var cny = exchangesObj["cbr"]["cny"];
+			var agencyList = agencyObj["list"]
+			if(usd, eur, cny, agencyList){
+				var mainAgency = agencyList[Math.floor(Math.random()*agencyList.length)];
+				try{
+					//alert(agencyObj[mainAgency]["rss"]);
+					xmlHttp.open( "GET", "https://strange-pants-fawn.cyclic.app/req?url=https://rg.ru/xml/index.xml", false);
+					xmlHttp.send( null );
+					resp = xmlHttp.responseText;
+					const rssFeed = parser.parseFromString(resp,"text/xml");
+					var listOfArticles = [];
+					//var userWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+					//var itemsOnScreen = Math.floor(userWidth / 270);
+					let i = 0;
+					while (i < 20){
+						//let articleImage = rssFeed.getElementsByTagName("url")[parsedArticles].innerHTML;
+						let articleImage = "./test.jpg"
+						let articleTitle = rssFeed.getElementsByTagName("title")[i+1].innerHTML;
+						let articleDescription = rssFeed.getElementsByTagName("description")[i+1].innerHTML;
+						let articleLink = rssFeed.getElementsByTagName("link")[i+1].innerHTML;
+						articleDescription = articleDescription.replace("<![CDATA[", "").replace("]]>", "");
+						if (articleDescription.length > 337){
+							articleDescription = truncateString(articleDescription, 337)
+						}
+						let articleItem = `<div class="article"><h3 class="articleText articleTitle">${articleTitle}</h3><p class="articleText articleDescription">${articleDescription}</p>\n<a href="${articleLink}" color="blue" style="text-decoration: none;" class="articleText agenceTitle">Читать</a></div>`;
+						listOfArticles.push(articleItem);
+						i++;
+					}
+					var articlesDiv = document.getElementById('articles');
+					listOfArticles.forEach((element) => {
+						articlesDiv.innerHTML += element;
+					});
+				}catch(err){
+					requestError();
+				}
+				document.getElementById("usdValue").innerHTML=`&nbsp;&nbsp;&nbsp;${usd}`;
+				document.getElementById("eurValue").innerHTML=`&nbsp;&nbsp;&nbsp;${eur}`;
+				document.getElementById("cnyValue").innerHTML=`&nbsp;&nbsp;&nbsp;${cny}`;
+				let loader = document.querySelector('.loader');
+				let loaderContainer = document.querySelector('.loaderContainer');
+				let loaderAnimation = document.querySelector('.loaderAnimation');
+				let loaderTitle = document.querySelector('.loaderTitle');
+				let loaderError = document.querySelector('.loaderError');
+				loader.style.display = "none";
+				loaderContainer.style.display = "none";
+				loaderAnimation.style.display = "none";
+				loaderTitle.style.display = "none";
+				loaderError.style.display = "none";
+			} else{
+				requestError()
+			}
+		}
+        if(xmlHttp != null)
+        {
+			try{
+				xmlHttp.open( "GET", "https://maxandsoftware.github.io/API/currency/exchanges.json", false );
+				xmlHttp.send( null );
+				resp = xmlHttp.responseText;
+				const exchangesObj = JSON.parse(resp);
+				xmlHttp.open( "GET", "https://maxandsoftware.github.io/API/news/agency.json", false );
+				xmlHttp.send( null );
+				resp = xmlHttp.responseText;
+				const agencyObj = JSON.parse(resp);
+				setup(exchangesObj, agencyObj);
+			}catch(err){
+				requestError()
+			}
+        }      
+		function search(q){
+		q = q.toString();
+		q = encodeURIComponent(q);
+		return `https://ya.ru/search/?text=${q}`;
+		}
+  </script>
+</html>
